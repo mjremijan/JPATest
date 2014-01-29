@@ -12,8 +12,11 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <ferris.property.derby.version>10.10.1.1</ferris.property.derby.version>              
+    <ferris.property.test.data>target/test-data</ferris.property.test.data>
   </properties>
 
+  
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -49,4 +52,86 @@
       <version>1.2.13</version>
     </dependency>
   </dependencies>
+  
+  
+  <build>
+    
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+      </testResource>
+    </testResources>
+    
+    <plugins>
+      <!--
+       | Delete leftover test data before running the tests 
+      -->
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <execution>
+            <phase>
+              process-test-sources
+            </phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <delete dir="${ferris.property.test.data}\.." verbose="true" />
+              </target>
+            </configuration>            
+          </execution>
+        </executions>
+      </plugin>
+      
+      <!--
+       | Create test data before running the tests 
+      -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>sql-maven-plugin</artifactId>       
+        <version>1.5</version>
+        <dependencies>
+            <dependency>
+              <groupId>org.apache.derby</groupId>
+              <artifactId>derby</artifactId>
+              <version>${ferris.property.derby.version}</version>
+            </dependency>
+        </dependencies>        
+        <executions>
+          <execution>
+            <id>create-derby-db</id>
+            <phase>
+                process-test-sources
+            </phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <encoding>UTF-8</encoding>
+              <driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
+              <url>jdbc:derby:${ferris.property.test.data};create=true</url>              
+              <username>sa</username>
+              <password></password>           
+              <autocommit>true</autocommit>
+              <skip>${skipTests}</skip>
+              <orderFile>ascending</orderFile>
+              <detail>true</detail>
+              <fileset>
+                <basedir>${basedir}/src/test/resources/sql</basedir>
+                <includes>
+                  <include>test-data-derby.sql</include>
+                </includes>
+              </fileset>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>              
+    </plugins>
+    
+  </build>
+  
 </project>
