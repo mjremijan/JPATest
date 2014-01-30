@@ -33,24 +33,28 @@ public class OrderMain
       setEntityManager();
       
       OrderKey orderKey = new OrderKey();
-//      // FIND      
+      // FIND      
+      {      
+        String pkText = "test-data";
+        long pkNumeric = 54321;
+        String pkTs = "2014-01-30-10.11.30.766";
+
+        orderKey.setNumeric(pkNumeric);
+        orderKey.setText("pkText");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss.S");
+        Date date = sdf.parse(pkTs);
+        orderKey.setTimestamp(new Timestamp(date.getTime()));
+      }
+      find(orderKey);  
+      
+//      // INSERT
+//      orderKey = new OrderKey();
 //      {
 //        orderKey.setNumeric(12345L);
 //        orderKey.setText("Shrubbery");
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-//        Date date = sdf.parse("2014-01-29 14:03:08.837-06");
-//        orderKey.setTimestamp(new Timestamp(date.getTime()));
+//        orderKey.setTimestamp(new Timestamp(System.currentTimeMillis()));
 //      }
-//      find(orderKey);  
-      
-      // INSERT
-      orderKey = new OrderKey();
-      {
-        orderKey.setNumeric(12345L);
-        orderKey.setText("Shrubbery");
-        orderKey.setTimestamp(new Timestamp(System.currentTimeMillis()));
-      }
-      persist(buildOrder(orderKey));      
+//      persist(buildOrder(orderKey));      
       
 //      // DELETE
 //      delete(orderKey);
