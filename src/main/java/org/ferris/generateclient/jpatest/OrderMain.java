@@ -39,8 +39,8 @@ public class OrderMain
         long pkNumeric = 54321;
         String pkTs = "2014-01-30-10.11.30.766";
 
+        orderKey.setText(pkText);
         orderKey.setNumeric(pkNumeric);
-        orderKey.setText("pkText");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss.S");
         Date date = sdf.parse(pkTs);
         orderKey.setTimestamp(new Timestamp(date.getTime()));
