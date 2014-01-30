@@ -12,10 +12,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import org.apache.log4j.Logger;
 
-/**
- * Hello world!
- *
- */
 public class OrderMain 
 {
     private static Logger log = Logger.getLogger(OrderMain.class);

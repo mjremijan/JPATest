@@ -5,10 +5,10 @@
     <!-- class>org.ferris.generateclient.jpatest.Order</class>
     <class>org.ferris.generateclient.jpatest.OrderItem</class -->    
     <properties>
-      <property name="hibernate.connection.username" value="postgres"/>
-      <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-      <property name="hibernate.connection.password" value="elephant"/>
-      <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/foo"/>
+      <property name="hibernate.connection.username" value="sa"/>
+      <property name="hibernate.connection.password" value=""/>
+      <property name="hibernate.connection.driver_class" value="org.apache.derby.jdbc.EmbeddedDriver"/>      
+      <property name="hibernate.connection.url" value="jdbc:derby:target/test-data"/>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
       <property name="hibernate.show_sql" value="true"/>
     </properties>
