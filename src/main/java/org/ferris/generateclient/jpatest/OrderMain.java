@@ -25,9 +25,6 @@ public class OrderMain
       log.info(String.format("EntityManager = %s",String.valueOf(em)));
     }
     
-    
-    private void foo() {}
-    
     public static void main( String[] args )            
     throws Exception
     {
@@ -36,15 +33,15 @@ public class OrderMain
       setEntityManager();
       
       OrderKey orderKey = new OrderKey();
-      // FIND      
-      {
-        orderKey.setNumeric(12345L);
-        orderKey.setText("Shrubbery");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-        Date date = sdf.parse("2014-01-29 14:03:08.837-06");
-        orderKey.setTimestamp(new Timestamp(date.getTime()));
-      }
-      find(orderKey);  
+//      // FIND      
+//      {
+//        orderKey.setNumeric(12345L);
+//        orderKey.setText("Shrubbery");
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+//        Date date = sdf.parse("2014-01-29 14:03:08.837-06");
+//        orderKey.setTimestamp(new Timestamp(date.getTime()));
+//      }
+//      find(orderKey);  
       
       // INSERT
       orderKey = new OrderKey();
