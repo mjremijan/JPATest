@@ -26,6 +26,8 @@ public class OrderMain
     }
     
     
+    private void foo() {}
+    
     public static void main( String[] args )            
     throws Exception
     {
@@ -53,8 +55,8 @@ public class OrderMain
       }
       persist(buildOrder(orderKey));      
       
-      // DELETE
-      delete(orderKey);
+//      // DELETE
+//      delete(orderKey);
       
       em.close();
       log.info(String.format("DONE"));

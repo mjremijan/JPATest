@@ -85,7 +85,8 @@
             </goals>
             <configuration>
               <target>
-                <delete dir="${ferris.property.test.data}\.." verbose="true" />
+                <echo>Deleting test data ${ferris.property.test.data}</echo>
+                <delete dir="${ferris.property.test.data}" verbose="true" />
               </target>
             </configuration>            
           </execution>
