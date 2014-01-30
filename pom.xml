@@ -13,7 +13,13 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <ferris.property.derby.version>10.10.1.1</ferris.property.derby.version>              
-    <ferris.property.test.data>target/test-data</ferris.property.test.data>
+    
+    <ferris.property.test.data.user>sa</ferris.property.test.data.user>
+    <ferris.property.test.data.pass></ferris.property.test.data.pass>
+    <ferris.property.test.data.driver>org.apache.derby.jdbc.EmbeddedDriver</ferris.property.test.data.driver>
+    <ferris.property.test.data.url.db>target/test-data</ferris.property.test.data.url.db>
+    <ferris.property.test.data.url>jdbc:derby:${ferris.property.test.data.url.db}</ferris.property.test.data.url>    
+    <ferris.property.test.sql.resource>${basedir}/src/test/resources/sql</ferris.property.test.sql.resource>    
   </properties>
 
   
@@ -69,6 +75,17 @@
     </testResources>
     
     <plugins>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.16</version>
+          <configuration>
+              <forkCount>0</forkCount>
+              <reuseForks>true</reuseForks>              
+          </configuration>
+        </plugin>
+        
       <!--
        | Delete leftover test data before running the tests 
       -->
@@ -85,8 +102,8 @@
             </goals>
             <configuration>
               <target>
-                <echo>Deleting test data ${ferris.property.test.data}</echo>
-                <delete dir="${ferris.property.test.data}" verbose="true" />
+                <echo>Deleting test data ${ferris.property.test.data.url.db}</echo>
+                <delete dir="${ferris.property.test.data.url.db}" verbose="true" />
               </target>
             </configuration>            
           </execution>
@@ -106,7 +123,17 @@
               <artifactId>derby</artifactId>
               <version>${ferris.property.derby.version}</version>
             </dependency>
-        </dependencies>        
+        </dependencies>  
+        
+        <configuration>
+            <encoding>UTF-8</encoding>
+            <driver>${ferris.property.test.data.driver}</driver>
+            <username>${ferris.property.test.data.user}</username>
+            <password>${ferris.property.test.data.pass}</password>           
+            <autocommit>true</autocommit>
+            <skip>${skipTests}</skip>                        
+        </configuration>
+                        
         <executions>
           <execution>
             <id>create-derby-db</id>
@@ -117,27 +144,30 @@
               <goal>execute</goal>
             </goals>
             <configuration>
-              <encoding>UTF-8</encoding>
-              <driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
-              <url>jdbc:derby:${ferris.property.test.data};create=true</url>              
-              <username>sa</username>
-              <password></password>           
-              <autocommit>true</autocommit>
-              <skip>${skipTests}</skip>
-              <orderFile>ascending</orderFile>
-              <detail>true</detail>
+              <url>${ferris.property.test.data.url};create=true</url>              
               <fileset>
-                <basedir>${basedir}/src/test/resources/sql</basedir>
+                <basedir>${ferris.property.test.sql.resource}</basedir>
                 <includes>
                   <include>test-data-derby.sql</include>
                 </includes>
               </fileset>
             </configuration>
           </execution>
+<!--          <execution>
+            <id>shutdown-derby-db</id>
+            <phase>
+                process-test-sources
+            </phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <url>${ferris.property.test.data.url};shutdown=true</url>
+              <onError>continue</onError>
+            </configuration>
+          </execution>-->
         </executions>
       </plugin>              
     </plugins>
-    
   </build>
-  
 </project>
