@@ -18,6 +18,14 @@ CREATE TABLE myorderitems
    PRIMARY KEY (pk_text, pk_numeric, pk_ts, pk_text_two)
 );
 
-inset into myorder (pk_text,pk_numeric,pk_ts,name)
-values ('Shrubbery', 12345, '2014-01-30-10.11.30.766', 'Blue');
+insert into myorder (pk_text,pk_numeric,pk_ts,name)
+values ('test-data', 54321, '2014-01-30-10.11.30.766', 'red');
 
+insert into myorderitems (pk_text,pk_numeric,pk_ts,pk_text_two,name)
+values ('test-data', 54321, '2014-01-30-10.11.30.766', 'c1', 'child1');
+
+insert into myorderitems (pk_text,pk_numeric,pk_ts,pk_text_two,name)
+values ('test-data', 54321, '2014-01-30-10.11.30.766', 'c2', 'child2');
+
+insert into myorderitems (pk_text,pk_numeric,pk_ts,pk_text_two,name)
+values ('test-data', 54321, '2014-01-30-10.11.30.766', 'c3', 'child3');
