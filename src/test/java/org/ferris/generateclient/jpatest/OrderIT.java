@@ -17,9 +17,9 @@ import org.ferris.generateclient.jpatest.OrderItemKey;
 import org.ferris.generateclient.jpatest.OrderKey;
 import org.junit.Test;
 
-public class OrderTest 
+public class OrderIT 
 {
-    private static Logger log = Logger.getLogger(OrderTest.class);
+    private static Logger log = Logger.getLogger(OrderIT.class);
     
     private static EntityManager em;
     private static void setEntityManager() throws Exception {
@@ -37,13 +37,12 @@ public class OrderTest
     
     public static final void main(String [] args) 
     throws Exception {
-       new OrderTest().findOrder();
+       new OrderIT();
     }
     @Test
     public void findOrder()           
     throws Exception
     {
-        Thread.currentThread().sleep(5000);
       log.info(String.format("WELCOME TO JPATEST"));
       
       setEntityManager();

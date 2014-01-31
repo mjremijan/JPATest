@@ -2,15 +2,22 @@
 <persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
   <persistence-unit name="SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <!-- class>org.ferris.generateclient.jpatest.Order</class>
-    <class>org.ferris.generateclient.jpatest.OrderItem</class -->    
+    <class>org.ferris.generateclient.jpatest.Order</class>
+    <class>org.ferris.generateclient.jpatest.OrderItem</class>    
     <properties>
-      <property name="hibernate.connection.username"        value="${ferris.property.test.data.user}"/>
-      <property name="hibernate.connection.password"        value="${ferris.property.test.data.pass}"/>
-      <property name="hibernate.connection.url"             value="${ferris.property.test.data.url}"/>
-      <property name="hibernate.connection.driver_class"    value="${ferris.property.test.data.driver}"/>            
+      <property name="hibernate.connection.username"        value="sa"/>
+      <property name="hibernate.connection.password"        value="as"/>
+      <property name="hibernate.connection.url"             value="jdbc:derby://localhost/memory:test"/>
+      <property name="hibernate.connection.driver_class"    value="org.apache.derby.jdbc.ClientDriver"/>            
       <property name="hibernate.cache.provider_class"       value="org.hibernate.cache.NoCacheProvider"/>
       <property name="hibernate.show_sql"                   value="true"/>
+      <property name="hibernate.dialect"                    value="org.hibernate.dialect.DerbyDialect"/>
     </properties>
   </persistence-unit>
+  <!--
+  <Set name="username">sa</Set>
+            <Set name="password"></Set>
+            <Set name="url">jdbc:derby://localhost/memory:test</Set>
+            <Set name="driverClassName">org.apache.derby.jdbc.ClientDriver</Set>
+  -->
 </persistence>

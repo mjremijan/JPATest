@@ -61,7 +61,12 @@
       <groupId>org.apache.derby</groupId>
       <artifactId>derby</artifactId>
       <version>${ferris.property.derby.version}</version>
-    </dependency>    
+    </dependency>
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derbyclient</artifactId>
+      <version>10.10.1.1</version>
+    </dependency>
   </dependencies>
   
   
@@ -75,20 +80,10 @@
     </testResources>
     
     <plugins>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.16</version>
-          <configuration>
-              <forkCount>0</forkCount>
-              <reuseForks>true</reuseForks>              
-          </configuration>
-        </plugin>
         
       <!--
        | Delete leftover test data before running the tests 
-      -->
+      
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <version>1.7</version>
@@ -109,10 +104,10 @@
           </execution>
         </executions>
       </plugin>
-      
+      -->
       <!--
        | Create test data before running the tests 
-      -->
+      
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>sql-maven-plugin</artifactId>       
@@ -134,40 +129,118 @@
             <skip>${skipTests}</skip>                        
         </configuration>
                         
-        <executions>
-          <execution>
-            <id>create-derby-db</id>
-            <phase>
-                process-test-sources
-            </phase>
+              <executions>
+                <execution>
+                  <id>create-derby-db</id>
+                  <phase>
+                      process-test-sources
+                  </phase>
+                  <goals>
+                    <goal>execute</goal>
+                  </goals>
+                  <configuration>
+                    <url>${ferris.property.test.data.url};create=true</url>              
+                    <fileset>
+                      <basedir>${ferris.property.test.sql.resource}</basedir>
+                      <includes>
+                        <include>test-data-derby.sql</include>
+                      </includes>
+                    </fileset>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin> --> 
+      
+      <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-failsafe-plugin</artifactId>
+    <version>2.12.4</version>
+    <executions>
+        <!-- States that both integration-test and verify goals of the Failsafe Maven plugin are executed. -->
+        <execution>
+            <id>integration-tests</id>
             <goals>
-              <goal>execute</goal>
+                <goal>integration-test</goal>
+                <goal>verify</goal>
             </goals>
             <configuration>
-              <url>${ferris.property.test.data.url};create=true</url>              
-              <fileset>
-                <basedir>${ferris.property.test.sql.resource}</basedir>
-                <includes>
-                  <include>test-data-derby.sql</include>
-                </includes>
-              </fileset>
+                <!-- Skips integration tests if the value of skip.integration.tests property is true -->
+                <skipTests>${skip.integration.tests}</skipTests>
             </configuration>
-          </execution>
-<!--          <execution>
-            <id>shutdown-derby-db</id>
-            <phase>
-                process-test-sources
-            </phase>
-            <goals>
-              <goal>execute</goal>
-            </goals>
-            <configuration>
-              <url>${ferris.property.test.data.url};shutdown=true</url>
-              <onError>continue</onError>
-            </configuration>
-          </execution>-->
-        </executions>
-      </plugin>              
-    </plugins>
-  </build>
+        </execution>
+    </executions>
+</plugin>
+
+<!--
+                <plugin>
+                    <groupId>org.carlspring.maven</groupId>
+                    <artifactId>derby-maven-plugin</artifactId>
+                    <version>1.8</version>
+                    <configuration>
+                        <derbyHome>${project.build.directory}/derby</derbyHome>
+                        <port>1527</port>
+                        <username>sa</username>
+                        <password>sa</password>
+                        <debug>true</debug>
+                        <url>jdbc:derby://localhost:1527/sa;create=true</url>   
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>start-derby</id>
+                            <phase>pre-integration-test</phase>
+                            <goals>
+                                <goal>start</goal>
+                            </goals>
+
+                            
+                    </execution>
+                    <execution>
+                        <id>stop-derby</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin> -->
+                    
+            <plugin>
+                <groupId>com.btmatthews.maven.plugins.inmemdb</groupId>
+                <artifactId>inmemdb-maven-plugin</artifactId>
+                <version>1.4.2</version>
+                <configuration>
+                    <monitorKey>inmemdb</monitorKey>
+                    <monitorPort>11527</monitorPort>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>run</id>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <phase>pre-integration-test</phase>
+                        <configuration>
+                            <daemon>true</daemon>
+                            <type>derby</type>
+                            <database>test</database>
+                            <username>sa</username>
+                            <password>as</password>
+                            <sources>
+                                <script>
+                                    <sourceFile>src/test/resources/sql/test-data-derby.sql</sourceFile>
+                                </script>                               
+                            </sources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stop</id>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                        <phase>post-integration-test</phase>
+                    </execution>
+                </executions>  
+            </plugin>                                
+        </plugins>
+    </build>
 </project>
