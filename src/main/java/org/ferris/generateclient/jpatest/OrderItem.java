@@ -30,13 +30,13 @@ public class OrderItem implements Serializable {
   @Column(name = "name")
   private String orderItemName;
   
-  @ManyToOne(optional=false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  @JoinColumns({
-        @JoinColumn(name="pk_numeric", referencedColumnName = "pk_numeric", insertable = false, updatable = false),
-        @JoinColumn(name="pk_text", referencedColumnName = "pk_text", insertable = false, updatable = false),
-        @JoinColumn(name="pk_ts", referencedColumnName = "pk_ts", insertable = false, updatable = false)
-    })
-  //@ManyToOne
+//  @ManyToOne(optional=false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//  @JoinColumns({
+//        @JoinColumn(name="pk_numeric", referencedColumnName = "pk_numeric", insertable = false, updatable = false),
+//        @JoinColumn(name="pk_text", referencedColumnName = "pk_text", insertable = false, updatable = false),
+//        @JoinColumn(name="pk_ts", referencedColumnName = "pk_ts", insertable = false, updatable = false)
+//    })
+  @ManyToOne
   private Order order;
 
   public String getOrderItemName() {

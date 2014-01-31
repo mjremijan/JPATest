@@ -29,7 +29,6 @@ public class Order implements Serializable {
   OrderKey key;
   
   @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)         
-  //@OneToMany(mappedBy = "order")         
   Collection<OrderItem> orderItems;
   
   @Column(name = "name")
