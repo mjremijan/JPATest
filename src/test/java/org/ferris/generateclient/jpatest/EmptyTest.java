@@ -40,6 +40,6 @@ public class EmptyTest {
 
      @Test
      public void hello() {
-         System.out.println("Hello");
+         assertTrue(true);
      }
 }

@@ -1,209 +1,108 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.ferris.generateclient</groupId>
-  <artifactId>JPATest</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+    <groupId>org.ferris.generateclient</groupId>
+    <artifactId>JPATest</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
-  <name>JPATest</name>
-  <url>http://maven.apache.org</url>
+    <name>JPATest</name>
+    <url>https://github.com/mjremijan/JPATest</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <ferris.property.derby.version>10.10.1.1</ferris.property.derby.version>              
-    
-    <ferris.property.test.data.user>sa</ferris.property.test.data.user>
-    <ferris.property.test.data.pass></ferris.property.test.data.pass>
-    <ferris.property.test.data.driver>org.apache.derby.jdbc.EmbeddedDriver</ferris.property.test.data.driver>
-    <ferris.property.test.data.url.db>target/test-data</ferris.property.test.data.url.db>
-    <ferris.property.test.data.url>jdbc:derby:${ferris.property.test.data.url.db}</ferris.property.test.data.url>    
-    <ferris.property.test.sql.resource>${basedir}/src/test/resources/sql</ferris.property.test.sql.resource>    
-  </properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <ferris.property.test.data.user>sa</ferris.property.test.data.user>
+        <ferris.property.test.data.pass>as</ferris.property.test.data.pass>        
+        <ferris.property.test.data.db>test-data</ferris.property.test.data.db>
+    </properties>
 
   
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.10</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-core</artifactId>
-      <version>3.6.10.Final</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-entitymanager</artifactId>
-      <version>3.6.10.Final</version>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.transaction</groupId>
-      <artifactId>jta</artifactId>
-      <version>1.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>9.2-1003-jdbc4</version>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.13</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.derby</groupId>
-      <artifactId>derby</artifactId>
-      <version>${ferris.property.derby.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.derby</groupId>
-      <artifactId>derbyclient</artifactId>
-      <version>10.10.1.1</version>
-    </dependency>
-  </dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>3.6.10.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>3.6.10.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.2-1003-jdbc4</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.10.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derbyclient</artifactId>
+            <version>10.10.1.1</version>
+        </dependency>
+    </dependencies>
   
   
-  <build>
+    <build>
+        <!--
+            Make sure resources are filtered to get the properties defined above
+        -->
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
     
-    <testResources>
-      <testResource>
-        <directory>src/test/resources</directory>
-        <filtering>true</filtering>
-      </testResource>
-    </testResources>
-    
-    <plugins>
-        
-      <!--
-       | Delete leftover test data before running the tests 
-      
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.7</version>
-        <executions>
-          <execution>
-            <phase>
-              process-test-sources
-            </phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target>
-                <echo>Deleting test data ${ferris.property.test.data.url.db}</echo>
-                <delete dir="${ferris.property.test.data.url.db}" verbose="true" />
-              </target>
-            </configuration>            
-          </execution>
-        </executions>
-      </plugin>
-      -->
-      <!--
-       | Create test data before running the tests 
-      
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>sql-maven-plugin</artifactId>       
-        <version>1.5</version>
-        <dependencies>
-            <dependency>
-              <groupId>org.apache.derby</groupId>
-              <artifactId>derby</artifactId>
-              <version>${ferris.property.derby.version}</version>
-            </dependency>
-        </dependencies>  
-        
-        <configuration>
-            <encoding>UTF-8</encoding>
-            <driver>${ferris.property.test.data.driver}</driver>
-            <username>${ferris.property.test.data.user}</username>
-            <password>${ferris.property.test.data.pass}</password>           
-            <autocommit>true</autocommit>
-            <skip>${skipTests}</skip>                        
-        </configuration>
-                        
-              <executions>
-                <execution>
-                  <id>create-derby-db</id>
-                  <phase>
-                      process-test-sources
-                  </phase>
-                  <goals>
-                    <goal>execute</goal>
-                  </goals>
-                  <configuration>
-                    <url>${ferris.property.test.data.url};create=true</url>              
-                    <fileset>
-                      <basedir>${ferris.property.test.sql.resource}</basedir>
-                      <includes>
-                        <include>test-data-derby.sql</include>
-                      </includes>
-                    </fileset>
-                  </configuration>
-                </execution>
-              </executions>
-            </plugin> --> 
-      
-      <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-failsafe-plugin</artifactId>
-    <version>2.12.4</version>
-    <executions>
-        <!-- States that both integration-test and verify goals of the Failsafe Maven plugin are executed. -->
-        <execution>
-            <id>integration-tests</id>
-            <goals>
-                <goal>integration-test</goal>
-                <goal>verify</goal>
-            </goals>
-            <configuration>
-                <!-- Skips integration tests if the value of skip.integration.tests property is true -->
-                <skipTests>${skip.integration.tests}</skipTests>
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
-
-<!--
-                <plugin>
-                    <groupId>org.carlspring.maven</groupId>
-                    <artifactId>derby-maven-plugin</artifactId>
-                    <version>1.8</version>
-                    <configuration>
-                        <derbyHome>${project.build.directory}/derby</derbyHome>
-                        <port>1527</port>
-                        <username>sa</username>
-                        <password>sa</password>
-                        <debug>true</debug>
-                        <url>jdbc:derby://localhost:1527/sa;create=true</url>   
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>start-derby</id>
-                            <phase>pre-integration-test</phase>
-                            <goals>
-                                <goal>start</goal>
-                            </goals>
-
-                            
-                    </execution>
+        <plugins>
+            <plugin>
+                <!-- 
+                    The maven-failsafe-plugin is used to run integration tests.
+                    The tests are part of /src/main/test and should end with 
+                    *IT.java
+                -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.12.4</version>
+                <executions>
                     <execution>
-                        <id>stop-derby</id>
-                        <phase>post-integration-test</phase>
+                        <id>integration-tests</id>
                         <goals>
-                            <goal>stop</goal>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
                         </goals>
+                        <configuration>
+                            <skipTests>${skip.integration.tests}</skipTests>
+                        </configuration>
                     </execution>
                 </executions>
-            </plugin> -->
-                    
+            </plugin>
+            <!-- 
+                This plugin will take care of starting a Derby database
+                and creating the tables/data before integration testing
+                begins. It will then cleanup everything afterwards
+            -->        
             <plugin>
                 <groupId>com.btmatthews.maven.plugins.inmemdb</groupId>
                 <artifactId>inmemdb-maven-plugin</artifactId>
@@ -222,9 +121,9 @@
                         <configuration>
                             <daemon>true</daemon>
                             <type>derby</type>
-                            <database>test</database>
-                            <username>sa</username>
-                            <password>as</password>
+                            <database>${ferris.property.test.data.db}</database>
+                            <username>${ferris.property.test.data.user}</username>
+                            <password>${ferris.property.test.data.pass}</password>
                             <sources>
                                 <script>
                                     <sourceFile>src/test/resources/sql/test-data-derby.sql</sourceFile>
