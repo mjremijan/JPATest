@@ -15,7 +15,8 @@ CREATE TABLE myorderitems
    pk_ts timestamp, 
    pk_text_two varchar(100),    
    name varchar(100),
-   PRIMARY KEY (pk_text, pk_numeric, pk_ts, pk_text_two)
+   PRIMARY KEY (pk_text, pk_numeric, pk_ts, pk_text_two),
+   CONSTRAINT myorderitems_fk FOREIGN KEY (pk_text, pk_numeric, pk_ts) REFERENCES myorder (pk_text, pk_numeric, pk_ts)
 );
 
 insert into myorder (pk_text,pk_numeric,pk_ts,name)
