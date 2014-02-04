@@ -20,7 +20,7 @@ import javax.persistence.Table;
  * @author Michael
  */
 @Entity
-@Table(name = "address")
+@Table(name = "app_address")
 public class Address implements Serializable 
 {
     private static final long serialVersionUID = 1987458724098L;
