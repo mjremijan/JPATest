@@ -1,5 +1,7 @@
 package org.ferris.generateclient.jpatest;
 
+import org.ferris.resolving.sqlgrammarexception.UserKey;
+import org.ferris.resolving.sqlgrammarexception.User;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import javax.persistence.EntityManager;
@@ -15,7 +17,7 @@ public class OrderIT
     private static Logger log = Logger.getLogger(OrderIT.class);
 
     private EntityManager em;
-    private OrderKey orderKey;
+    private UserKey orderKey;
     @Before
     public void setEntityManager() throws Exception 
     {
@@ -31,14 +33,14 @@ public class OrderIT
     @Before
     public void setOrderKey() throws Exception 
     {
-        orderKey = new OrderKey();
+        orderKey = new UserKey();
         
-        orderKey.setText("test-data");
-        orderKey.setNumeric(54321L);
-        orderKey.setTimestamp(
+        orderKey.setLastName("red");
+        orderKey.setZipCode(90210L);
+        orderKey.setBirthday(
             new Timestamp(
                 new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss.S")
-                    .parse("2014-01-30-10.11.30.766")
+                    .parse("1977-01-30-10.11.30.766")
                     .getTime()
            )
         );
@@ -48,7 +50,7 @@ public class OrderIT
     public void findOrder() throws Exception 
     {
         assertNotNull("OrderKey should be initialized", orderKey);
-        Order orderFound = em.find(Order.class, orderKey);
+        User orderFound = em.find(User.class, orderKey);
         assertNotNull(
             String.format("Order not found in the database. OrderKey=%s",orderKey)
             , orderFound

@@ -1,31 +1,32 @@
 -- Create the tables
-CREATE TABLE myorder
+CREATE TABLE "user"
 (
-   pk_text varchar(100), 
-   pk_numeric numeric, 
-   pk_ts timestamp, 
-   name varchar(100),  
-   PRIMARY KEY (pk_text, pk_numeric, pk_ts)
+   last_name varchar(100), 
+   zip_code numeric, 
+   birthday timestamp, 
+   email varchar(100),  
+   PRIMARY KEY (last_name, zip_code, birthday)
 );
 
-CREATE TABLE myorderitems
+CREATE TABLE address
 (
-   pk_text varchar(100), 
-   pk_numeric numeric, 
-   pk_ts timestamp, 
-   pk_text_two varchar(100),    
-   name varchar(100),
-   PRIMARY KEY (pk_text, pk_numeric, pk_ts, pk_text_two)
+   last_name varchar(100), 
+   zip_code numeric, 
+   birthday timestamp,  
+   address varchar(100),    
+   type varchar(1),
+   PRIMARY KEY (last_name, zip_code, birthday, address),
+   CONSTRAINT address_fk FOREIGN KEY (last_name, zip_code, birthday) REFERENCES "user" (last_name, zip_code, birthday)
 );
 
-insert into myorder (pk_text,pk_numeric,pk_ts,name)
-values ('test-data', 54321, '2014-01-30-10.11.30.766', 'red');
+insert into "user" (last_name, zip_code, birthday, email)
+values ('red', 90210, '1977-01-30-10.11.30.766', 'rita.red@internet.com');
 
-insert into myorderitems (pk_text,pk_numeric,pk_ts,pk_text_two,name)
-values ('test-data', 54321, '2014-01-30-10.11.30.766', 'c1', 'child1');
+insert into address (last_name, zip_code, birthday, address, type)
+values ('red', 90210, '1977-01-30-10.11.30.766', '123 Work Street', 'w');
 
-insert into myorderitems (pk_text,pk_numeric,pk_ts,pk_text_two,name)
-values ('test-data', 54321, '2014-01-30-10.11.30.766', 'c2', 'child2');
+insert into address (last_name, zip_code, birthday, address, type)
+values ('red', 90210, '1977-01-30-10.11.30.766', '123 Home Street', 'h');
 
-insert into myorderitems (pk_text,pk_numeric,pk_ts,pk_text_two,name)
-values ('test-data', 54321, '2014-01-30-10.11.30.766', 'c3', 'child3');
+insert into address (last_name, zip_code, birthday, address, type)
+values ('red', 90210, '1977-01-30-10.11.30.766', '123 Summer Street', 's');
