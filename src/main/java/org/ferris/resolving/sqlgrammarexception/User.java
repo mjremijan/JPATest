@@ -29,7 +29,7 @@ public class User implements Serializable
     @EmbeddedId
     UserKey key;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="user", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
     Collection<Address> addresses;
 
     @Column(name = "email")

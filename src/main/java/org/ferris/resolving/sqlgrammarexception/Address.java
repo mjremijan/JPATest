@@ -31,13 +31,13 @@ public class Address implements Serializable
     @Column(name = "type")
     private String type;
 
-    //@ManyToOne
-    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumns({
-        @JoinColumn(name="last_name", referencedColumnName="last_name", insertable=false,   updatable=false),
-        @JoinColumn(name="zip_code",  referencedColumnName="zip_code",  insertable=false,   updatable=false),
-        @JoinColumn(name="birthday",  referencedColumnName="birthday",  insertable=false,   updatable=false)
-    })
+//    @ManyToOne
+    @ManyToOne(optional=false, fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+//    @JoinColumns({
+//        @JoinColumn(name="last_name", referencedColumnName="last_name", insertable=false,   updatable=false),
+//        @JoinColumn(name="zip_code",  referencedColumnName="zip_code",  insertable=false,   updatable=false),
+//        @JoinColumn(name="birthday",  referencedColumnName="birthday",  insertable=false,   updatable=false)
+//    })
     private User user;
 
     public String getType() {
